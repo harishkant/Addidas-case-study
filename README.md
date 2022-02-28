@@ -123,4 +123,44 @@ data.groupBy("publish_year", "author").count().filter("count >=1").drop("count")
 
 
 
+**CASE STUDY IN HIVE**
 
+1. Select all "Harry Potter" books
+
+select publish_year,count(*) from dwhstg.addidate_case_study where title like '%Harry Potter%' group by publish_year;
+
+![image](https://user-images.githubusercontent.com/34162166/155957772-75814294-d6b9-4fb4-9c14-482b6f3d5d24.png)
+
+
+2. Get the book with the most pages
+
+select * from dwhstg.addidate_case_study  order by number_of_pages desc limit 1
+
+![image](https://user-images.githubusercontent.com/34162166/155959516-5b957c4f-b5ab-4174-b439-43e205ef4436.png)
+
+
+3. Find the Top 5 authors with most written books (assuming author in first position in the array, "key" field and each
+row is a different book)
+
+select * from (select author,count(*) total from dwhstg.addidate_case_study group by author) a order by total desc limit 5
+
+![image](https://user-images.githubusercontent.com/34162166/155961583-edfb7d8b-45c0-4e1e-8fe6-e0fc0f437477.png)
+
+
+4. Find the Top 5 genres with most books
+
+select * from (select genre,count(*) total from dwhstg.addidate_case_study group by genre) a order by total desc limit 5
+
+![image](https://user-images.githubusercontent.com/34162166/155962712-3dcd324b-0402-4d87-a087-39839d921137.png)
+
+
+5. Get the avg. number of pages
+
+select average(number_of_pages) total from dwhstg.addidate_case_study
+![image](https://user-images.githubusercontent.com/34162166/155962114-0de3dd87-94df-4066-b886-fbe41dbfd4f6.png)
+
+6. Per publish year, get the number of authors that published at least one book
+
+select * from (select publish_year,count(*) total from dwhstg.addidate_case_study group by publish_year) a order by publish_year
+
+![image](https://user-images.githubusercontent.com/34162166/155963147-eac88732-2e64-408e-9a54-3d3e06de27bc.png)
